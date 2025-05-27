@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Оплата заказа</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #fff5f5;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #d41c1c;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .confirmation-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .confirmation-card {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            text-align: center;
+            animation: fadeIn 0.4s ease-in-out;
+            font-family: sans-serif;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+        .row input {
+            flex: 1;
+        }
+        button {
+            background-color: #d41c1c;
+            color: white;
+            padding: 14px;
+            width: 100%;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #b21818;
+        }
+        .card-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .card-icons img {
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Оплата заказа</h1>
+    </header>
+
+    <div class="container">
+        <h2>Введите данные карты</h2>
+
+        <div class="card-icons">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="Mastercard">
+        </div>
+
+       <form onsubmit="handlePayment(event)">
+            <label for="cardNumber">Номер карты</label>
+            <input type="text" id="cardNumber" name="cardNumber" placeholder="0000 0000 0000 0000" required pattern="\d{16}">
+
+            <div class="row">
+                <div>
+                    <label for="expiry">Срок действия</label>
+                    <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required pattern="\d{2}/\d{2}">
+                </div>
+                <div>
+                    <label for="cvc">CVC / CVV</label>
+                    <input type="text" id="cvc" name="cvc" placeholder="123" required pattern="\d{3}">
+                </div>
+            </div>
+
+            <button type="submit">Оплатить</button>
+        </form>
+    </div>
+    <div class="confirmation-modal" id="confirmation-modal">
+        <div class="confirmation-card">
+            <h2>✅ Оплата прошла успешно</h2>
+            <p>Сейчас перенаправим на выбор доставки...</p>
+        </div>
+    </div>
+    <script>
+        function handlePayment(event) {
+            event.preventDefault();
+            const modal = document.getElementById("confirmation-modal");
+            modal.style.display = "flex";
+            setTimeout(() => {
+                window.location.href = "{% url 'delivery' %}";
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

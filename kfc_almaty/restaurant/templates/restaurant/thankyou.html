@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Спасибо за заказ</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 40px; }
+        .check {
+            display: inline-block;
+            border: 2px solid #e20000;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+        }
+        h1 { color: #e20000; }
+    </style>
+</head>
+<body>
+    <div class="check">
+        <h1>Спасибо за заказ!</h1>
+        <p>Ваш заказ успешно оформлен и оплачен.</p>
+        <p>Онлайн чек отправлен на вашу почту.</p>
+        <p>Ожидайте доставки или приходите за самовывозом.</p>
+        <a href="{% url 'home' %}">Вернуться на главную</a>
+    </div>
+</body>
+</html>

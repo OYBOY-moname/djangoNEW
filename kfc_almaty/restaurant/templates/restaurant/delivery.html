@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Выбор способа выдачи</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0; padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #d41c1c;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h2 {
+            margin-bottom: 25px;
+            text-align: center;
+            color: #d41c1c;
+        }
+        label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        #map-container {
+            margin-top: 20px;
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            display: none;
+        }
+        #delivery-fields {
+            margin-top: 20px;
+            display: none;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            box-sizing: border-box;
+            margin-top: 8px;
+            resize: vertical;
+        }
+        button {
+            margin-top: 30px;
+            background-color: #d41c1c;
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #b21818;
+        }
+    </style>
+</head>
+<body>
+    <header>Выбор способа выдачи</header>
+    <div class="container">
+        <h2>Как хотите получить заказ?</h2>
+
+        <form id="delivery-form">
+            <label>
+                <input type="radio" name="deliveryType" value="pickup" /> Самовывоз
+            </label>
+            <label>
+                <input type="radio" name="deliveryType" value="delivery" /> Доставка на дом
+            </label>
+
+            <div id="map-container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11671.518736231822!2d76.88429497998048!3d43.23894934277073!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3883695b3c84ed17%3A0x400ee6ed3a3b850!2z0JHRg9C70L7QstCwINCc0LXQvdC40YHRjNC60LDRjyDQvtCx0LXRgdC60LDRjyDQv9C-0YHRgtCw0LLQuNC5!5e0!3m2!1sru!2skz!4v1680000000000!5m2!1sru!2skz"
+                    width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+
+            <div id="delivery-fields">
+                <label for="address">Введите адрес доставки</label>
+                <textarea id="address" name="address" rows="3" placeholder="Укажите полный адрес" required></textarea>
+            </div>
+
+            <button type="submit">Подтвердить и завершить заказ</button>
+        </form>
+    </div>
+
+    <script>
+        const pickupRadio = document.querySelector('input[value="pickup"]');
+        const deliveryRadio = document.querySelector('input[value="delivery"]');
+        const mapContainer = document.getElementById('map-container');
+        const deliveryFields = document.getElementById('delivery-fields');
+        const form = document.getElementById('delivery-form');
+
+        function updateUI() {
+            if (pickupRadio.checked) {
+                mapContainer.style.display = "block";
+                deliveryFields.style.display = "none";
+                deliveryFields.querySelector('textarea').required = false;
+            } else if (deliveryRadio.checked) {
+                mapContainer.style.display = "none";
+                deliveryFields.style.display = "block";
+                deliveryFields.querySelector('textarea').required = true;
+            } else {
+                mapContainer.style.display = "none";
+                deliveryFields.style.display = "none";
+                deliveryFields.querySelector('textarea').required = false;
+            }
+        }
+
+        form.addEventListener('change', updateUI);
+
+        updateUI();
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+           alert("Спасибо за заказ! С Вами свяжутся для подтверждения.");
+            window.location.href = "{% url 'thankyou' %}";
+        });
+    </script>
+</body>
+</html>

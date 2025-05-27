@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KFC Вход</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #fff;
+            color: #b30000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            border: 2px solid #b30000;
+            padding: 30px;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        h2 {
+            color: #b30000;
+            margin-bottom: 20px;
+        }
+
+        form p {
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-top: 5px;
+        }
+
+        button {
+            background-color: #b30000;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff0000;
+        }
+
+        a {
+            color: #b30000;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Вход в аккаунт KFC</h2>
+
+        <form method="post" onsubmit="return validateForm()">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit">Войти</button>
+        </form>
+
+        <p>Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a></p>
+    </div>
+
+    <script>
+        function validateForm() {
+            const inputs = document.querySelectorAll('input[type="text"], input[type="password"]');
+            for (let input of inputs) {
+                if (input.value.trim() === "") {
+                    alert("Пожалуйста, заполните все поля.");
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

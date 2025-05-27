@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KFC Алматы</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: #d32f2f;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        header p {
+            margin: 5px 0 0;
+            font-size: 0.9em;
+        }
+
+        .auth-links {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .auth-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-weight: bold;
+        }
+
+        .hero {
+            background: url('https://avatars.mds.yandex.net/i?id=0af113480daac7c2666aba4bb6b11d04882df032-5288161-images-thumbs&n=13') center/cover no-repeat;
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .hero a {
+            background-color: red;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .info-blocks {
+            display: flex;
+            justify-content: space-around;
+            background-color: #fafafa;
+            padding: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .info-block {
+            flex: 1 1 200px;
+            margin: 10px;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .info-block h3 {
+            color: #c62828;
+        }
+
+        .info-block a {
+            display: block;
+            margin-top: 5px;
+            text-decoration: none;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9em;
+            background: none;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .popup-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 350px;
+            color: #333;
+        }
+
+        .popup-content h3 {
+            color: #b30000;
+        }
+
+        .popup-content button {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #b30000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .popup-content button:hover {
+            background-color: #e60000;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>KFC Алматы</h1>
+    <p>Добро пожаловать в ресторан быстрого питания</p>
+    <div class="auth-links">
+        {% if user.is_authenticated %}
+            <span>Привет, {{ user.username }}!</span>
+            <a href="{% url 'logout' %}">Выйти</a>
+        {% else %}
+            <a href="{% url 'login' %}">Войти</a>
+            <a href="{% url 'register' %}">Регистрация</a>
+        {% endif %}
+    </div>
+</header>
+
+<section class="hero">
+    <h2>Ощути вкус легенды</h2>
+    <p>Бургеры, крылышки, картофель и многое другое</p>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'menu' %}">Перейти в меню</a>
+    {% else %}
+        <a href="#" onclick="showPopup()">Перейти в меню</a>
+    {% endif %}
+</section>
+
+<section class="info-blocks">
+<div class="info-block">
+            <h3>Настройки</h3>
+            <a href="#">Изменить язык</a>
+            <a href="#">Тёмная тема (в разработке)</a>
+            <a href="#">Настройка профиля</a>
+        </div>
+        <div class="info-block">
+            <h3>Отзывы</h3>
+            <a href="#">Оставить отзыв</a>
+            <a href="#">Читать отзывы клиентов</a>
+            <a href="#">Рейтинг качества</a>
+        </div>
+        <div class="info-block">
+            <h3>Контакты</h3>
+            <p>г. Алматы, ул. Абая 56</p>
+            <p>‪+7 707 123 45 67‬</p>
+            <p>support@kfc.kz</p>
+        </div>
+
+</section>
+
+<footer>
+    © 2025 KFC Алматы. Все права защищены.
+</footer>
+
+<!-- Всплывающее окно -->
+<div class="popup" id="authPopup">
+    <div class="popup-content">
+        <h3>Вы не вошли в аккаунт</h3>
+        <p>Чтобы перейти в меню, пожалуйста, войдите или зарегистрируйтесь.</p>
+        <button onclick="window.location.href='{% url 'login' %}'">Войти</button>
+        <button onclick="window.location.href='{% url 'register' %}'">Регистрация</button>
+        <button onclick="closePopup()">Отмена</button>
+    </div>
+</div>
+
+<script>
+    function showPopup() {
+        document.getElementById('authPopup').style.display = 'flex';
+    }
+
+    function closePopup() {
+        document.getElementById('authPopup').style.display = 'none';
+    }
+</script>
+</body>
+</html>

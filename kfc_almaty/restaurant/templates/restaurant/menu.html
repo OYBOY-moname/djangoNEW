@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Меню KFC</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #fff8f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #d41c1c;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 8px rgba(212,28,28,0.7);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        header .logo {
+            font-weight: 900;
+            font-size: 28px;
+            letter-spacing: 2px;
+            cursor: default;
+            user-select: none;
+            text-shadow: 1px 1px 3px #7b0000;
+        }
+        header nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 25px;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+        header nav a:hover {
+            color: #ffb100;
+            text-shadow: 0 0 4px #ffb100;
+        }
+
+        h1 {
+            color: #d41c1c;
+            text-align: center;
+            margin: 30px 0 20px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .menu-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            padding: 0 20px 50px;
+        }
+
+        .menu-item {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 300px; /* было 250px — увеличиваем */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.2s;
+            min-height: 460px; /* увеличиваем высоту */
+        }
+
+        .menu-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(212,28,28,0.5);
+        }
+        .menu-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-bottom: 3px solid #d41c1c;
+        }
+        .menu-item h3 {
+            margin: 15px 0 10px;
+            font-weight: 700;
+            color: #d41c1c;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .sizes {
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .sizes label {
+            margin: 5px;
+            padding: 6px 12px;
+            border: 1px solid #d41c1c;
+            border-radius: 6px;
+            cursor: pointer;
+            background-color: #fff0f0;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .sizes input[type="radio"] {
+            display: none;
+        }
+        .sizes input[type="radio"]:checked + label {
+            background-color: #d41c1c;
+            color: white;
+            box-shadow: 0 0 8px #ffb100;
+        }
+
+        .price {
+            font-weight: 700;
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #d41c1c;
+            border: none;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 7px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(212,28,28,0.7);
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #a31111;
+            box-shadow: 0 6px 18px rgba(163,17,17,0.9);
+        }
+
+        .cart {
+            margin: 40px auto 80px;
+            max-width: 520px;
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(212,28,28,0.35);
+        }
+        .cart h2 {
+            color: #d41c1c;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .cart-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 20px;
+        }
+        .cart-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+            color: #333;
+        }
+        .total {
+            font-weight: 900;
+            font-size: 20px;
+            text-align: right;
+            color: #d41c1c;
+            margin-bottom: 22px;
+        }
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            background-color: #d41c1c;
+            border: none;
+            color: white;
+            padding: 14px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 6px 16px rgba(212,28,28,0.8);
+            transition: background-color 0.3s ease;
+        }
+        .checkout-btn:hover {
+            background-color: #a31111;
+        }
+
+        .back-link {
+            display: block;
+            margin: 20px auto 40px;
+            width: max-content;
+            text-decoration: none;
+            color: #d41c1c;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Адаптив */
+        @media(max-width: 600px) {
+            .menu-list {
+                gap: 15px;
+            }
+            .menu-item {
+                width: 100%;
+                max-width: 320px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">KFC</div>
+        <nav>
+            <a href="{% url 'home' %}">Главная</a>
+            <a href="{% url 'menu' %}">Меню</a>
+        </nav>
+    </header>
+
+    <h1>Меню ресторана</h1>
+
+    <div class="menu-list" id="menu-list"></div>
+
+    <div class="cart" id="cart" style="display:none;">
+        <h2>Корзина</h2>
+        <ul class="cart-list" id="cart-list"></ul>
+        <div class="total" id="total-price">Итого: 0 ₸</div>
+        <a href="{% url 'payment' %}" class="checkout-btn" id="checkout-btn">Перейти к оплате</a>
+
+    </div>
+
+    <a href="{% url 'home' %}" class="back-link">← Назад</a>
+
+<script>
+    const menuItems = [
+        {
+            id: 1,
+            name: 'Бургер Классический',
+            sizes: [
+                { label: 'Маленький', price: 1500 },
+                { label: 'Средний', price: 1800 },
+                { label: 'Большой', price: 2000 }
+            ],
+            img: 'https://avatars.mds.yandex.net/get-altay/11385005/2a0000019132d209f369e448be65653322b8/XXXL'
+        },
+        {
+            id: 2,
+            name: 'Крылышки Барбекю ',
+            sizes: [
+                { label: 'Маленький (6шт)', price: 1200 },
+                { label: 'Средний (9 шт)', price: 1500 },
+                { label: 'Большой (12шт)', price: 1800 }
+            ],
+            img: 'https://static-actual-production.chibbis.ru/14374f4d860656619271ce133d660c2b.jpeg'
+        },
+        {
+            id: 3,
+            name: 'Картофель фри',
+            sizes: [
+                { label: 'Маленький', price: 600 },
+                { label: 'Средний', price: 800 },
+                { label: 'Большой', price: 1000 }
+            ],
+            img: 'https://avatars.mds.yandex.net/get-altay/9368060/2a00000189a154a93211522a7e8e23fe643f/XXL_height'
+        },
+        {
+            id: 4,
+            name: 'Напиток Колы',
+            sizes: [
+                { label: 'Маленький', price: 500 },
+                { label: 'Средний', price: 700 },
+                { label: 'Большой', price: 900 }
+            ],
+            img: 'https://avatars.mds.yandex.net/get-mpic/1042102/img_id8615293506424095976.jpeg/orig'
+        },
+        {
+            id: 5,
+            name: 'Салат Цезарь',
+            sizes: [
+                { label: 'Маленький', price: 800 },
+                { label: 'Средний', price: 1000 },
+                { label: 'Большой', price: 1200 }
+            ],
+            img: 'https://sofa-bar.ru/wp-content/uploads/2021/02/%D1%81%D0%B0%D0%BB%D0%B0%D1%82-%D1%86%D0%B5%D0%B7%D0%B0%D1%80%D1%8C-%D1%81-%D0%BB%D0%BE%D1%81%D0%BE%D1%81%D0%B5%D0%BC.jpg'
+        }
+    ];
+
+    const menuList = document.getElementById('menu-list');
+    const cart = document.getElementById('cart');
+    const cartList = document.getElementById('cart-list');
+    const totalPriceEl = document.getElementById('total-price');
+
+    let cartItems = [];
+
+    function renderMenu() {
+        menuList.innerHTML = '';
+        menuItems.forEach(item => {
+            const menuItem = document.createElement('div');
+            menuItem.className = 'menu-item';
+
+            menuItem.innerHTML = `
+                <img src="${item.img}" alt="${item.name}">
+                <h3>${item.name}</h3>
+                <div class="sizes">
+                    ${item.sizes.map((size, idx) => `
+                        <input type="radio" id="size-${item.id}-${idx}" name="size-${item.id}" value="${idx}" ${idx === 0 ? 'checked' : ''} />
+                        <label for="size-${item.id}-${idx}">${size.label}</label>
+                    `).join('')}
+                </div>
+                <div class="price" id="price-${item.id}">${item.sizes[0].price} ₸</div>
+                <button onclick="addToCart(${item.id})">В корзину</button>
+            `;
+
+            menuList.appendChild(menuItem);
+
+            const radios = menuItem.querySelectorAll(`input[name="size-${item.id}"]`);
+            const priceEl = menuItem.querySelector(`#price-${item.id}`);
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    const selectedSize = item.sizes[+radio.value];
+                    priceEl.textContent = selectedSize.price + ' ₸';
+                });
+            });
+        });
+    }
+
+    function addToCart(id) {
+        const item = menuItems.find(i => i.id === id);
+        const radios = document.querySelectorAll(`input[name="size-${id}"]`);
+        let selectedSizeIndex = 0;
+        radios.forEach(radio => {
+            if (radio.checked) selectedSizeIndex = +radio.value;
+        });
+
+        const cartItemIndex = cartItems.findIndex(ci => ci.id === id && ci.sizeIndex === selectedSizeIndex);
+        if (cartItemIndex >= 0) {
+            cartItems[cartItemIndex].quantity++;
+        } else {
+            cartItems.push({
+                id: id,
+                name: item.name,
+                size: item.sizes[selectedSizeIndex].label,
+                price: item.sizes[selectedSizeIndex].price,
+                quantity: 1
+            });
+        }
+        renderCart();
+    }
+
+    function renderCart() {
+        if (cartItems.length === 0) {
+            cart.style.display = 'none';
+            return;
+        }
+        cart.style.display = 'block';
+
+        cartList.innerHTML = '';
+        let total = 0;
+        cartItems.forEach((item, idx) => {
+            total += item.price * item.quantity;
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <span>${item.name} (${item.size}) x${item.quantity}</span>
+                <span>${item.price * item.quantity} ₸</span>
+                <button onclick="removeFromCart(${idx})" style="background:none;border:none;color:#d41c1c;cursor:pointer;font-weight:700;">×</button>
+            `;
+            cartList.appendChild(li);
+        });
+        totalPriceEl.textContent = 'Итого: ' + total + ' ₸';
+    }
+
+    function removeFromCart(index) {
+        cartItems.splice(index, 1);
+        renderCart();
+    }
+
+    renderMenu();
+</script>
+
+</body>
+</html>
